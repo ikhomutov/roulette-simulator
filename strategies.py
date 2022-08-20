@@ -1,8 +1,8 @@
 import random
 from dataclasses import dataclass
-from typing import List, Protocol
+from typing import Protocol
 
-from roulette import Bet, Pocket
+from roulette import Pocket
 
 
 @dataclass
@@ -15,15 +15,15 @@ class Strategy(Protocol):
     def make_choice(
         self,
         *,
-        available_bets: List[Bet],
-        spin_history: List[Pocket],
+        available_bets: dict[str, dict],
+        spin_history: list[Pocket],
         bankroll: int
     ) -> PlayerBet:
         pass
 
 
 class RandomStrategy:
-    def make_choice(self, *, available_bets, spin_history, bankroll):
+    def make_choice(self, *, available_bets, **kwargs):
         return [
             PlayerBet(
                 bet=random.choice(list(available_bets.keys())), amount=100
